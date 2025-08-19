@@ -2,8 +2,6 @@ import java.util.Scanner;
 
 public class Atlas {
 
-
-
     public static void main(String[] args) {
         String logo = "   ===      ========   =            ===       =====\n" +
                 "  =   =        =       =           =   =     =     =\n" +
@@ -14,10 +12,6 @@ public class Atlas {
                 " =     =       =       ========   =     =     =====\n";
         System.out.print(logo + "\n\n");
 
-
-
         new AtlasCLI(new Scanner(System.in)).run();
-
-
     }
 }

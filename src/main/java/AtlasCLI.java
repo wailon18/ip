@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public final class AtlasCLI {
     public static final String PARTITION = "\n_____________________________________________________________________\n";
@@ -12,30 +10,64 @@ public final class AtlasCLI {
     public AtlasCLI(Scanner sc) {
         this.sc = sc;
     }
+    private static final Map<String, Actions> ACTION_MAP = new HashMap<>();
+    static {
+        for (Actions a : Actions.values()) ACTION_MAP.put(a.name(), a);
+        ACTION_MAP.put("LS", Actions.LIST);
+        ACTION_MAP.put("DEL", Actions.DELETE);
+    }
+
+    private static Actions toAction(String token) {
+        String key = token.trim().toUpperCase();
+        Actions a = ACTION_MAP.get(key);
+        if (a == null) throw new IllegalArgumentException("Unknown action: " + token);
+        return a;
+    }
+
 
     public void run() {
         // welcome message
         String welcomeMessage = "Hello! I'm Atlas\nWhat can I do for you?";
         System.out.println(PARTITION + welcomeMessage + PARTITION);
+        boolean running = true;
 
-        while (true) {
+        while (running) {
             String command = this.sc.nextLine().trim();
+            String actionStr = command.split(" ")[0];
             try {
-                String action = command.split(" ")[0];
-                if (action.equalsIgnoreCase("bye")) break;
-                else if (action.equalsIgnoreCase("list") || action.equalsIgnoreCase("ls")) this.listTasks();
-                else if (action.equalsIgnoreCase("unmark")) markTaskAsIncomplete(command);
-                else if (action.equalsIgnoreCase("mark")) markTaskAsComplete(command);
-                else if (action.equalsIgnoreCase("todo")) createTodo(command);
-                else if (action.equalsIgnoreCase("deadline")) createDeadline(command);
-                else if (action.equalsIgnoreCase("event")) createEvent(command);
-                else if (action.equalsIgnoreCase("delete")) deleteEvent(command);
-                else System.out.println(PARTITION + "Unrecognised command" + PARTITION);
+                Actions action = toAction(actionStr);
+                switch (action) {
+                    case BYE:
+                        running = false;
+                        break;
+                    case LIST:
+                        this.listTasks();
+                        break;
+                    case UNMARK:
+                        markTaskAsIncomplete(command);
+                        break;
+                    case MARK:
+                        markTaskAsComplete(command);
+                        break;
+                    case TODO:
+                        createTodo(command);
+                        break;
+                    case DEADLINE:
+                        createDeadline(command);
+                        break;
+                    case EVENT:
+                        createEvent(command);
+                        break;
+                    case DELETE:
+                        deleteTask(command);
+                        break;
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("Unrecognised command");
+                System.out.println();
             } catch (IndexOutOfBoundsException ex) {
-                System.out.println(PARTITION + "Sorry, the description of the task cannot be empty, please try again." + PARTITION);
+                System.out.println("Sorry, the description of the task cannot be empty, please try again.");
             }
-
-
         }
         String exitMessage = "Bye. Hope to see you again soon!";
         System.out.println(PARTITION + exitMessage + PARTITION);
@@ -113,12 +145,12 @@ public final class AtlasCLI {
                 Task task = this.tasks.get(index);
                 task.markAsIncomplete();
             } catch (IllegalArgumentException | IndexOutOfBoundsException ex) {
-                System.out.println("Invalid index");
+                System.out.println(PARTITION + "Invalid index" + PARTITION);
             }
         }
     }
 
-    private void deleteEvent(String command) {
+    private void deleteTask(String command) {
         String[] splitString = command.split(" ");
         if (splitString.length != 2) {
             System.out.println("Please check your command and try again.");
@@ -131,7 +163,7 @@ public final class AtlasCLI {
                 printNowYouHave();
                 System.out.print(PARTITION);
             } catch (IllegalArgumentException | IndexOutOfBoundsException ex) {
-                System.out.println("Invalid index");
+                System.out.println(PARTITION + "Invalid index" + PARTITION);
             }
         }
     }
@@ -146,7 +178,7 @@ public final class AtlasCLI {
                 Task task = this.tasks.get(index);
                 task.markAsComplete();
             } catch (IllegalArgumentException | IndexOutOfBoundsException ex) {
-                System.out.println("Invalid index");
+                System.out.println(PARTITION + "Invalid index" + PARTITION);
             }
         }
     }
