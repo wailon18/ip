@@ -29,9 +29,9 @@ public final class AtlasCLI {
                 else if (action.equalsIgnoreCase("todo")) createTodo(command);
                 else if (action.equalsIgnoreCase("deadline")) createDeadline(command);
                 else if (action.equalsIgnoreCase("event")) createEvent(command);
-                else System.out.println("Unrecognised command");
+                else System.out.println(PARTITION + "Unrecognised command" + PARTITION);
             } catch (IndexOutOfBoundsException ex) {
-                System.out.println("Sorry I did not catch your command, could you please try again.");
+                System.out.println(PARTITION + "Sorry, the description of the task cannot be empty, please try again." + PARTITION);
             }
 
 
@@ -88,7 +88,7 @@ public final class AtlasCLI {
 
     private void printGotIt(Task toBeAdded) {
         System.out.println(PARTITION);
-        System.out.println("Got it. I've added this task: ");
+        System.out.println("Got it. I've added this task:");
         System.out.println("    " + toBeAdded);
         if (this.tasks.size() == 1) {
             System.out.println("Now you have " + this.tasks.size() + " task in the list.");
