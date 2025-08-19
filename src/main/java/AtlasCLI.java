@@ -29,6 +29,7 @@ public final class AtlasCLI {
                 else if (action.equalsIgnoreCase("todo")) createTodo(command);
                 else if (action.equalsIgnoreCase("deadline")) createDeadline(command);
                 else if (action.equalsIgnoreCase("event")) createEvent(command);
+                else if (action.equalsIgnoreCase("delete")) deleteEvent(command);
                 else System.out.println(PARTITION + "Unrecognised command" + PARTITION);
             } catch (IndexOutOfBoundsException ex) {
                 System.out.println(PARTITION + "Sorry, the description of the task cannot be empty, please try again." + PARTITION);
@@ -90,12 +91,16 @@ public final class AtlasCLI {
         System.out.println(PARTITION);
         System.out.println("Got it. I've added this task:");
         System.out.println("    " + toBeAdded);
+        printNowYouHave();
+        System.out.println(PARTITION);
+    }
+
+    private void printNowYouHave() {
         if (this.tasks.size() == 1) {
             System.out.println("Now you have " + this.tasks.size() + " task in the list.");
         } else {
             System.out.println("Now you have " + this.tasks.size() + " tasks in the list.");
         }
-        System.out.println(PARTITION);
     }
 
     private void markTaskAsIncomplete(String command) {
@@ -107,6 +112,24 @@ public final class AtlasCLI {
                 int index = Integer.parseInt(splitString[1]) - 1;
                 Task task = this.tasks.get(index);
                 task.markAsIncomplete();
+            } catch (IllegalArgumentException | IndexOutOfBoundsException ex) {
+                System.out.println("Invalid index");
+            }
+        }
+    }
+
+    private void deleteEvent(String command) {
+        String[] splitString = command.split(" ");
+        if (splitString.length != 2) {
+            System.out.println("Please check your command and try again.");
+        } else {
+            try {
+                int index = Integer.parseInt(splitString[1]) - 1;
+                var task = tasks.get(index);
+                tasks.remove(index);
+                System.out.println(PARTITION + "Noted. I've removed this task:\n" + task);
+                printNowYouHave();
+                System.out.print(PARTITION);
             } catch (IllegalArgumentException | IndexOutOfBoundsException ex) {
                 System.out.println("Invalid index");
             }
