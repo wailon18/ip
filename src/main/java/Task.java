@@ -1,10 +1,17 @@
-public class Task {
+public abstract class Task {
     private String task;
     private boolean completed;
 
     public Task(String task) {
         this.task = task;
         this.completed = false;
+    }
+
+    public String saveTask() {
+        if (this.completed) {
+            return "1|" + this.task;
+        }
+        return "0|" + this.task;
     }
 
     public void markAsComplete() {
@@ -29,6 +36,13 @@ public class Task {
             System.out.println(this);
         }
         System.out.println(AtlasCLI.PARTITION);
+    }
+
+    public void silentComplete() {
+        this.completed = true;
+    }
+    public void silentIncomplete() {
+        this.completed = false;
     }
 
     @Override

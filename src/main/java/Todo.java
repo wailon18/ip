@@ -3,6 +3,10 @@ public class Todo extends Task {
         super(task);
     }
 
+    @Override
+    public String saveTask() {
+        return "T|" + super.saveTask();
+    }
 
     @Override
     public String toString() {

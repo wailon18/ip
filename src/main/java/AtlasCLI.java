@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 
 public final class AtlasCLI {
@@ -30,6 +34,7 @@ public final class AtlasCLI {
         String welcomeMessage = "Hello! I'm Atlas\nWhat can I do for you?";
         System.out.println(PARTITION + welcomeMessage + PARTITION);
         boolean running = true;
+        this.loadTasks();
 
         while (running) {
             String command = this.sc.nextLine().trim();
@@ -62,6 +67,7 @@ public final class AtlasCLI {
                         deleteTask(command);
                         break;
                 }
+                saveTasks();
             } catch (IllegalArgumentException e) {
                 System.out.println("Unrecognised command");
                 System.out.println();
@@ -180,6 +186,49 @@ public final class AtlasCLI {
             } catch (IllegalArgumentException | IndexOutOfBoundsException ex) {
                 System.out.println(PARTITION + "Invalid index" + PARTITION);
             }
+        }
+    }
+
+    private void saveTasks() {
+        String fileName = "atlas.txt";
+        try (PrintWriter out = new PrintWriter(new FileWriter(fileName, false))) {
+            for (Task task : this.tasks) {
+                out.println(task.saveTask());
+            }
+        } catch (IOException ex) {
+            System.out.println("Error saving tasks: " + ex.getMessage());
+        }
+    }
+
+
+    private void loadTasks() {
+        File file = new File("atlas.txt");
+        if (!file.exists()) return;
+
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] splitString = line.split("\\|");
+                String type = splitString[0];
+                Task newTask;
+                if (type.equals("T")) {
+                    newTask = new Todo(splitString[2]);
+                } else if (type.equals("D")) {
+                    newTask = new Deadline(splitString[2], splitString[3]);
+                } else if (type.equals("E")) {
+                    newTask = new Event(splitString[2], splitString[3], splitString[4]);
+                } else {
+                    throw new IllegalArgumentException("Invalid task type: " + type);
+                }
+                if (splitString[1].equals("0")) {
+                    newTask.silentIncomplete();
+                } else {
+                    newTask.silentComplete();
+                }
+                this.tasks.add(newTask);
+            }
+        } catch (IOException | ArrayIndexOutOfBoundsException | IllegalArgumentException ex) {
+            System.out.println("Error loading tasks: " + ex.getMessage());
         }
     }
 }
