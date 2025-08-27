@@ -2,6 +2,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public final class AtlasCLI {
@@ -32,7 +35,10 @@ public final class AtlasCLI {
     public void run() {
         // welcome message
         String welcomeMessage = "Hello! I'm Atlas\nWhat can I do for you?";
-        System.out.println(PARTITION + welcomeMessage + PARTITION);
+        String informationMessage = "Type commands in the following format:\n"
+                + "- todo <task>\n- deadline <task> /by <datetime>\n- event <task> /from <datetime> /to <datetime>\n"
+                + "Note that <datetime> must be in the form of <dd/MM/yyyy HHmm> where HHmm is time in 24-hour format\n";
+        System.out.println(PARTITION + welcomeMessage + PARTITION + informationMessage + PARTITION);
         boolean running = true;
         this.loadTasks();
 
@@ -102,7 +108,9 @@ public final class AtlasCLI {
             System.out.println("Invalid Deadline Task, must have '/by' flag");
             return;
         }
-        String deadline = taskWithDeadline.substring(splitIndex + DEADLINE_DELIMITER.length() + 1);
+        String deadlineString = taskWithDeadline.substring(splitIndex + DEADLINE_DELIMITER.length() + 1);
+        LocalDateTime deadline = this.parseDateTime(deadlineString);
+        if (deadline == null) return;
         String task = taskWithDeadline.substring(0, splitIndex - 1);
         Deadline toBeAdded = new Deadline(task, deadline);
         this.tasks.add(toBeAdded);
@@ -117,8 +125,11 @@ public final class AtlasCLI {
             System.out.println("Invalid Event Task, must have '/from' and '/to' flags");
         }
         String task = taskEvent.substring(0, fromIndex - 1);
-        String startDate = taskEvent.substring(fromIndex + FROM_DELIMITER.length() + 1, toIndex - 1);
-        String endDate = taskEvent.substring(toIndex + TO_DELIMITER.length() +1);
+        String startDateString = taskEvent.substring(fromIndex + FROM_DELIMITER.length() + 1, toIndex - 1);
+        String endDateString = taskEvent.substring(toIndex + TO_DELIMITER.length() +1);
+        LocalDateTime startDate = this.parseDateTime(startDateString);
+        LocalDateTime endDate = this.parseDateTime(endDateString);
+        if (startDate == null || endDate == null) return;
         Event toBeAdded = new Event(task, startDate, endDate);
         this.tasks.add(toBeAdded);
         printGotIt(toBeAdded);
@@ -214,9 +225,14 @@ public final class AtlasCLI {
                 if (type.equals("T")) {
                     newTask = new Todo(splitString[2]);
                 } else if (type.equals("D")) {
-                    newTask = new Deadline(splitString[2], splitString[3]);
+                    LocalDateTime deadline = parseDateTime(splitString[3]);
+                    if (deadline == null) return;
+                    newTask = new Deadline(splitString[2], deadline);
                 } else if (type.equals("E")) {
-                    newTask = new Event(splitString[2], splitString[3], splitString[4]);
+                    LocalDateTime startDate = parseDateTime(splitString[3]);
+                    LocalDateTime endDate = parseDateTime(splitString[4]);
+                    if (startDate == null) return;
+                    newTask = new Event(splitString[2], startDate, endDate);
                 } else {
                     throw new IllegalArgumentException("Invalid task type: " + type);
                 }
@@ -229,6 +245,17 @@ public final class AtlasCLI {
             }
         } catch (IOException | ArrayIndexOutOfBoundsException | IllegalArgumentException ex) {
             System.out.println("Error loading tasks: " + ex.getMessage());
+        }
+    }
+
+    private LocalDateTime parseDateTime(String date) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+        try {
+            return LocalDateTime.parse(date, dtf);
+        } catch (DateTimeParseException ex) {
+            System.out.println("Invalid datetime format: " + ex.getMessage());
+            System.out.println("Please try again.");
+            return null;
         }
     }
 }
