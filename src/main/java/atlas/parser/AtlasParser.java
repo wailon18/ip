@@ -43,11 +43,11 @@ public class AtlasParser {
         String actionStr = command.split(" ")[0];
         Actions action = AtlasParser.toAction(actionStr);
         switch (action) {
-            case Actions.BYE:
+            case BYE:
                 return new ByeCommand();
-            case Actions.LIST:
+            case LIST:
                 return new ListCommand();
-            case Actions.UNMARK:
+            case UNMARK:
                 String[] splitStringUnmark = command.split(" ");
                 if (splitStringUnmark.length != 2) {
                     throw new IllegalArgumentException("Index is required.");
@@ -55,7 +55,7 @@ public class AtlasParser {
                     int index = Integer.parseInt(splitStringUnmark[1]) - 1;
                     return new UncompleteCommand(index);
                 }
-            case Actions.MARK:
+            case MARK:
                 String[] splitStringMark = command.split(" ");
                 if (splitStringMark.length != 2) {
                     throw new IllegalArgumentException("Index is required.");
@@ -63,10 +63,10 @@ public class AtlasParser {
                     int index = Integer.parseInt(splitStringMark[1]) - 1;
                     return new CompleteCommand(index);
                 }
-            case Actions.TODO:
+            case TODO:
                 String task = command.substring(5);
                 return new TodoCommand(task);
-            case Actions.DEADLINE:
+            case DEADLINE:
                 String taskWithDeadline = command.substring(9);
                 int splitIndex = taskWithDeadline.lastIndexOf(DEADLINE_DELIMITER);
                 if (splitIndex < 0) {
@@ -79,7 +79,7 @@ public class AtlasParser {
                 }
                 String deadlineTask = taskWithDeadline.substring(0, splitIndex - 1);
                 return new DeadlineCommand(deadlineTask, deadline);
-            case Actions.EVENT:
+            case EVENT:
                 String taskEvent = command.substring(6);
                 int fromIndex = taskEvent.lastIndexOf(FROM_DELIMITER);
                 int toIndex = taskEvent.lastIndexOf(TO_DELIMITER);
@@ -95,7 +95,7 @@ public class AtlasParser {
                     throw new IllegalArgumentException("Datetime must not be null.");
                 }
                 return new EventCommand(eventTask, startDate, endDate);
-            case Actions.DELETE:
+            case DELETE:
                 String[] splitStringDelete = command.split(" ");
                 if (splitStringDelete.length != 2) {
                     throw new IllegalArgumentException("Index is required.");
