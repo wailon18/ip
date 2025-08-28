@@ -33,6 +33,7 @@ application {
 
 shadowJar {
     archiveBaseName = "atlas"
+    archiveVersion = ""
     archiveClassifier = null
 }
 

@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 /**
  * Represents a command that adds a deadline task to the task list.
  */
-public class DeadlineCommand extends Command{
 public class DeadlineCommand extends Command {
 
     private Deadline deadline;
