@@ -8,6 +8,11 @@ import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Provides parsing utilities for the Atlas application.
+ * Converts raw user input into executable commands,
+ * maps text tokens to actions, and parses date-time strings.
+ */
 public class AtlasParser {
     private static final Map<String, Actions> ACTION_MAP = new HashMap<>();
     private static final String DEADLINE_DELIMITER = "/by";
@@ -20,6 +25,13 @@ public class AtlasParser {
         ACTION_MAP.put("DEL", Actions.DELETE);
     }
 
+    /**
+     * Parses a string into a {@link LocalDateTime} using the format d/M/yyyy HHmm.
+     * Returns {@code null} if the input is invalid.
+     *
+     * @param date the date-time string to parse
+     * @return the parsed {@link LocalDateTime}, or {@code null} if parsing fails
+     */
     public static LocalDateTime parseDateTime(String date) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
         try {
@@ -31,6 +43,14 @@ public class AtlasParser {
         }
     }
 
+    /**
+     * Converts a command token into an {@link Actions} enum value.
+     * Accepts command names and aliases (case-insensitive).
+     *
+     * @param token the raw command string entered by the user
+     * @return the corresponding {@link Actions} value
+     * @throws IllegalArgumentException if the token does not match any action
+     */
     public static Actions toAction(String token) {
         String key = token.trim().toUpperCase();
         Actions a = ACTION_MAP.get(key);
@@ -38,6 +58,17 @@ public class AtlasParser {
         return a;
     }
 
+    /**
+     * Parses a full user command string into a corresponding {@link Command}.
+     * <p>
+     * Determines the action keyword, validates arguments, and constructs
+     * the appropriate command object (e.g. {@code TodoCommand}, {@code DeadlineCommand}).
+     *
+     * @param command the raw user input string
+     * @return the constructed {@link Command} matching the user input
+     * @throws IllegalArgumentException if the command is invalid or missing arguments
+     * @throws IndexOutOfBoundsException if an index argument is out of range
+     */
     public static Command parse(String command) throws IndexOutOfBoundsException, IllegalArgumentException {
         command = command.trim();
         String actionStr = command.split(" ")[0];

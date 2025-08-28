@@ -8,8 +8,18 @@ import atlas.tasklist.AtlasTaskList;
 
 import java.util.Scanner;
 
+/**
+ * Entry point of the Atlas application.
+ * Initializes storage, CLI, and task list, then runs the main program loop.
+ */
 public class Atlas {
 
+    /**
+     * Starts the Atlas application.
+     * Initializes storage, CLI, and task list, then enters the command loop.
+     *
+     * @param args command-line arguments (not used)
+     */
     public static void main(String[] args) {
         String logo = "   ===      ========   =            ===       =====\n" +
                 "  =   =        =       =           =   =     =     =\n" +

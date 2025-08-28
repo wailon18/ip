@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Handles saving and loading tasks to and from a file.
+ * Provides methods to persist the task list and reconstruct it from storage.
+ */
 public class AtlasStorage {
     private String filePath;
 
@@ -23,6 +27,13 @@ public class AtlasStorage {
         this.filePath = filePath;
     }
 
+    /**
+     * Saves all tasks in the given task list to the file.
+     * Overwrites the file with the current state of the task list.
+     *
+     * @param atlasTaskList the task list to save
+     * @throws IOException if an error occurs while writing to the file
+     */
     public void save(AtlasTaskList atlasTaskList) throws IOException {
         try (PrintWriter out = new PrintWriter(new FileWriter(this.filePath, false))) {
             for (Task task : atlasTaskList.getTaskList()) {
@@ -31,6 +42,12 @@ public class AtlasStorage {
         }
     }
 
+    /**
+     * Loads tasks from the file and reconstructs them as a list.
+     * Supports Todo, Deadline, and Event tasks, restoring their completion state.
+     *
+     * @return a list of tasks loaded from the file; empty if the file does not exist
+     */
     public List<Task> load() {
         List<Task> tasks = new ArrayList<>();
         File file = new File(this.filePath);
