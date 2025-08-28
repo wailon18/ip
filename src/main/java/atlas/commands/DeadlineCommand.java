@@ -8,14 +8,13 @@ import atlas.tasks.Deadline;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-public class DeadlineCommand extends Command{
+public class DeadlineCommand extends Command {
 
     private Deadline deadline;
 
     public DeadlineCommand(String task, LocalDateTime deadline) {
         this.deadline = new Deadline(task, deadline);
     }
-
 
     @Override
     public void execute(AtlasTaskList taskList, AtlasCli atlasCLI, AtlasStorage atlasStorage) {

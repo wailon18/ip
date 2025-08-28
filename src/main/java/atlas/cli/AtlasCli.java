@@ -8,9 +8,8 @@ import java.util.Scanner;
 
 public final class AtlasCli {
 
-
     private final Scanner sc;
-    private List<Task> tasks = new ArrayList<>();
+    private final List<Task> tasks = new ArrayList<>();
 
     public AtlasCli(Scanner sc) {
         this.sc = sc;

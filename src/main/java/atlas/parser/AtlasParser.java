@@ -34,7 +34,9 @@ public class AtlasParser {
     public static Actions toAction(String token) {
         String key = token.trim().toUpperCase();
         Actions a = ACTION_MAP.get(key);
-        if (a == null) throw new IllegalArgumentException("Unknown action: " + token);
+        if (a == null) {
+            throw new IllegalArgumentException("Unknown action: " + token);
+        }
         return a;
     }
 
@@ -88,7 +90,7 @@ public class AtlasParser {
                 }
                 String eventTask = taskEvent.substring(0, fromIndex - 1);
                 String startDateString = taskEvent.substring(fromIndex + FROM_DELIMITER.length() + 1, toIndex - 1);
-                String endDateString = taskEvent.substring(toIndex + TO_DELIMITER.length() +1);
+                String endDateString = taskEvent.substring(toIndex + TO_DELIMITER.length() + 1);
                 LocalDateTime startDate = parseDateTime(startDateString);
                 LocalDateTime endDate = parseDateTime(endDateString);
                 if (startDate == null || endDate == null) {

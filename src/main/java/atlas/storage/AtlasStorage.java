@@ -34,7 +34,9 @@ public class AtlasStorage {
     public List<Task> load() {
         List<Task> tasks = new ArrayList<>();
         File file = new File(this.filePath);
-        if (!file.exists()) return tasks;
+        if (!file.exists()) {
+            return tasks;
+        }
 
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
@@ -46,12 +48,16 @@ public class AtlasStorage {
                     newTask = new Todo(splitString[2]);
                 } else if (type.equals("D")) {
                     LocalDateTime deadline = AtlasParser.parseDateTime(splitString[3]);
-                    if (deadline == null) continue;
+                    if (deadline == null) {
+                        continue;
+                    }
                     newTask = new Deadline(splitString[2], deadline);
                 } else if (type.equals("E")) {
                     LocalDateTime startDate = AtlasParser.parseDateTime(splitString[3]);
                     LocalDateTime endDate = AtlasParser.parseDateTime(splitString[4]);
-                    if (startDate == null) continue;
+                    if (startDate == null) {
+                        continue;
+                    }
                     newTask = new Event(splitString[2], startDate, endDate);
                 } else {
                     throw new IllegalArgumentException("Invalid task type: " + type);
