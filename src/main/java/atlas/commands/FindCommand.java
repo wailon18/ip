@@ -4,13 +4,16 @@ import atlas.cli.AtlasCli;
 import atlas.storage.AtlasStorage;
 import atlas.tasklist.AtlasTaskList;
 
-public class ListCommand extends Command {
+public class FindCommand extends Command {
 
+    String query;
+
+    public FindCommand(String query) {
+        this.query = query;
+    }
 
     @Override
     public void execute(AtlasTaskList taskList, AtlasCli atlasCLI, AtlasStorage atlasStorage) {
-        atlasCLI.showLine();
-        atlasCLI.listTasks(taskList.getTaskList());
-        atlasCLI.showLine();
+        atlasCLI.listTasks(taskList.getTasksWithQuery(query));
     }
 }

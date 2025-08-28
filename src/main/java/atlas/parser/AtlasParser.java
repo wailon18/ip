@@ -102,6 +102,13 @@ public class AtlasParser {
                 }
                 int index = Integer.parseInt(splitStringDelete[1]) - 1;
                 return new DeleteCommand(index);
+            case FIND:
+                String[] splitStringFind = command.split(" ");
+                String query = "";
+                if (splitStringFind.length == 2) {
+                    query =  splitStringFind[1];
+                }
+                return new FindCommand(query);
         }
         throw new IllegalArgumentException("Unknown action: " + command);
     }

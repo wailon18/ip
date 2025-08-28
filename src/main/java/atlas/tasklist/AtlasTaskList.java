@@ -2,6 +2,7 @@ package atlas.tasklist;
 
 import atlas.tasks.Task;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AtlasTaskList {
@@ -11,11 +12,6 @@ public class AtlasTaskList {
         this.taskList = taskList;
     }
 
-    public void listTasks() {
-        for (int i = 0; i < this.taskList.size(); i++) {
-            System.out.println((i+1) + "." + this.taskList.get(i));
-        }
-    }
 
     public void addTask(Task task) {
         this.taskList.add(task);
@@ -31,5 +27,15 @@ public class AtlasTaskList {
 
     public Task removeTaskByIndex(int index) {
         return this.taskList.remove(index);
+    }
+
+    public List<Task> getTasksWithQuery(String query) {
+        List<Task> tasks = new ArrayList<>();
+        for (Task task : this.taskList) {
+            if (task.toString().contains(query)) {
+                tasks.add(task);
+            }
+        }
+        return tasks;
     }
 }
