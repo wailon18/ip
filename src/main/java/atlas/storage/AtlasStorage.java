@@ -33,7 +33,7 @@ public class AtlasStorage {
 
     public List<Task> load() {
         List<Task> tasks = new ArrayList<>();
-        File file = new File("atlas.txt");
+        File file = new File(this.filePath);
         if (!file.exists()) return tasks;
 
         try (Scanner scanner = new Scanner(file)) {
