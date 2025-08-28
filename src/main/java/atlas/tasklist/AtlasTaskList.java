@@ -1,6 +1,6 @@
-package TaskList;
+package atlas.tasklist;
 
-import Tasks.Task;
+import atlas.tasks.Task;
 
 import java.util.List;
 

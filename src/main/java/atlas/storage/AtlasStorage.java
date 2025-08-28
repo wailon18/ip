@@ -1,11 +1,11 @@
-package Storage;
+package atlas.storage;
 
-import Parser.AtlasParser;
-import TaskList.AtlasTaskList;
-import Tasks.Deadline;
-import Tasks.Event;
-import Tasks.Task;
-import Tasks.Todo;
+import atlas.parser.AtlasParser;
+import atlas.tasklist.AtlasTaskList;
+import atlas.tasks.Deadline;
+import atlas.tasks.Event;
+import atlas.tasks.Task;
+import atlas.tasks.Todo;
 
 import java.io.File;
 import java.io.FileWriter;

@@ -1,8 +1,10 @@
-import Cli.AtlasCli;
-import Commands.Command;
-import Parser.AtlasParser;
-import Storage.AtlasStorage;
-import TaskList.AtlasTaskList;
+package atlas;
+
+import atlas.cli.AtlasCli;
+import atlas.commands.Command;
+import atlas.parser.AtlasParser;
+import atlas.storage.AtlasStorage;
+import atlas.tasklist.AtlasTaskList;
 
 import java.util.Scanner;
 

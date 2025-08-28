@@ -1,6 +1,6 @@
-package Cli;
+package atlas.cli;
 
-import Tasks.Task;
+import atlas.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public final class AtlasCli {
     }
 
     public void showWelcome() {
-        String welcomeMessage = "Hello! I'm Atlas\nWhat can I do for you?";
+        String welcomeMessage = "Hello! I'm Atlas.Atlas\nWhat can I do for you?";
         String informationMessage = "Type commands in the following format:\n"
                 + "- todo <task>\n- deadline <task> /by <datetime>\n- event <task> /from <datetime> /to <datetime>\n"
                 + "Note that <datetime> must be in the form of <dd/MM/yyyy HHmm> where HHmm is time in 24-hour format\n";

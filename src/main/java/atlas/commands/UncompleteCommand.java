@@ -1,9 +1,9 @@
-package Commands;
+package atlas.commands;
 
-import Cli.AtlasCli;
-import Storage.AtlasStorage;
-import TaskList.AtlasTaskList;
-import Tasks.Task;
+import atlas.cli.AtlasCli;
+import atlas.storage.AtlasStorage;
+import atlas.tasklist.AtlasTaskList;
+import atlas.tasks.Task;
 
 import java.io.IOException;
 

@@ -1,8 +1,8 @@
-package Commands;
+package atlas.commands;
 
-import Cli.AtlasCli;
-import Storage.AtlasStorage;
-import TaskList.AtlasTaskList;
+import atlas.cli.AtlasCli;
+import atlas.storage.AtlasStorage;
+import atlas.tasklist.AtlasTaskList;
 
 public class ByeCommand extends Command {
 

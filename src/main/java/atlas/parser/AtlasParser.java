@@ -1,6 +1,6 @@
-package Parser;
+package atlas.parser;
 
-import Commands.*;
+import atlas.commands.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

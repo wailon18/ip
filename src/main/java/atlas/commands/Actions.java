@@ -1,4 +1,4 @@
-package Commands;
+package atlas.commands;
 
 public enum Actions {
     BYE,

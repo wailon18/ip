@@ -1,4 +1,4 @@
-package Tasks;
+package atlas.tasks;
 
 public abstract class Task {
     private String task;
