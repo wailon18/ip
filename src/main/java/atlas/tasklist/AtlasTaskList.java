@@ -20,7 +20,7 @@ public class AtlasTaskList {
      */
     public void listTasks() {
         for (int i = 0; i < this.taskList.size(); i++) {
-            System.out.println((i+1) + "." + this.taskList.get(i));
+            System.out.println((i + 1) + "." + this.taskList.get(i));
         }
     }
 

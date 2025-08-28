@@ -14,7 +14,7 @@ import java.io.IOException;
 public class CompleteCommand extends Command {
     private int index;
 
-    public CompleteCommand(int index){
+    public CompleteCommand(int index) {
         this.index = index;
     }
 

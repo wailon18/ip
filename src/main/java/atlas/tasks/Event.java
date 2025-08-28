@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class Event extends Task {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+
     public Event(String task, LocalDateTime startDate, LocalDateTime endDate) {
         super(task);
         this.startDate = startDate;

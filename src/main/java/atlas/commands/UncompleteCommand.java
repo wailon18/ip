@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class UncompleteCommand extends Command {
     private int index;
-    public UncompleteCommand(int index){
+    public UncompleteCommand(int index) {
         this.index = index;
     }
 

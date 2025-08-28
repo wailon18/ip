@@ -12,8 +12,9 @@ import java.util.Scanner;
  * messages in the command-line interface.
  */
 public final class AtlasCli {
+
     private final Scanner sc;
-    private List<Task> tasks = new ArrayList<>();
+    private final List<Task> tasks = new ArrayList<>();
 
     public AtlasCli(Scanner sc) {
         this.sc = sc;
