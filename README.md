@@ -1,26 +1,32 @@
-# Atlas project template
+# Atlas 
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Atlas_. Given below are instructions on how to use it.
+> "You don't have to carry the world by yourself." - Atlas
 
-## Setting up in Intellij
+Atlas is an application which will share the burden of your workload. Offload the task of remembering tasks to Atlas.
 
-Prerequisites: JDK 17, update Intellij to the most recent version.
+Atlas is,
+- interactive
+- fast
+- intuitive to use
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 17** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/Atlas.java` file, right-click it, and choose `Run Atlas.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-   Hello from
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
+To get the support of this mighty Titan,
+1. download it from this [repo](https://github.com/wailon18/ip)
+2. run the application
+3. talk about your troubles (add your tasks)
+4. let it assist you in carrying these burdens
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+Imagine having this (but without having to lift your fingers from the keyboard):
+- [x] submit iP
+- [ ] submit tP
+- [ ] ~drop out~ change major 🫠 
+
+Here's a sneak peek to the magic `AtlasTaskList` that happens behind the scenes:
+```java
+public class AtlasTaskList {
+    private List<Task> taskList;
+
+    public AtlasTaskList(List<Task> taskList) {
+        this.taskList = taskList;
+    }
+}
+```
