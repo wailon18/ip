@@ -21,6 +21,11 @@ public class ByeCommand extends Command {
     public void execute(AtlasTaskList taskList,
             AtlasCli atlasCLI, AtlasStorage atlasStorage) {}
 
+    @Override
+    public String executeToString(AtlasTaskList taskList, AtlasStorage atlasStorage) {
+        return "Bye. Hope to see you again soon!";
+    }
+
     /**
      * Indicates that this command should terminate the program.
      *

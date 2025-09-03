@@ -42,4 +42,20 @@ public class UncompleteCommand extends Command {
             atlasCLI.showError(e.getMessage());
         }
     }
+
+    @Override
+    public String executeToString(AtlasTaskList taskList, AtlasStorage atlasStorage) {
+        Task task = taskList.getTaskByIndex(index);
+        if (!task.isComplete()) {
+            return "This task has not been marked as completed";
+        } else {
+            task.toggleComplete();
+            try {
+                atlasStorage.save(taskList);
+            } catch (IOException e) {
+                return e.getMessage();
+            }
+            return "OK, I've marked this task as not done yet:\n" + task;
+        }
+    }
 }

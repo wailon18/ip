@@ -21,6 +21,7 @@ public abstract class Command {
     public abstract void execute(AtlasTaskList taskList,
             AtlasCli atlasCLI, AtlasStorage atlasStorage);
 
+    public abstract String executeToString(AtlasTaskList taskList, AtlasStorage atlasStorage);
     /**
      * Indicates whether this command will terminate the program.
      * By default returns {@code false}; subclasses override if needed.

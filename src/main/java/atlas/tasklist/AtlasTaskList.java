@@ -17,15 +17,6 @@ public class AtlasTaskList {
     }
 
     /**
-     * Prints all tasks in the list with an index.
-     */
-    public void listTasks() {
-        for (int i = 0; i < this.taskList.size(); i++) {
-            System.out.println((i + 1) + "." + this.taskList.get(i));
-        }
-    }
-
-    /**
      * Adds a task to the list.
      *
      * @param task the task to be added
@@ -72,4 +63,14 @@ public class AtlasTaskList {
         }
         return tasks;
     }
+
+    public String getTaskCountString() {
+        if (this.taskList.size() == 1) {
+            return "Now you have " + this.taskList.size() + " task in the list.";
+        } else {
+            return "Now you have " + this.taskList.size() + " tasks in the list.";
+        }
+    }
+
+
 }

@@ -35,4 +35,16 @@ public class DeleteCommand extends Command {
             atlasCLI.showError(e.getMessage());
         }
     }
+
+    @Override
+    public String executeToString(AtlasTaskList taskList, AtlasStorage atlasStorage) {
+        var toBeDeleted = taskList.removeTaskByIndex(index);
+        try {
+            atlasStorage.save(taskList);
+        } catch (IOException e) {
+            return e.getMessage();
+        }
+        return "Noted. I've removed this task:\n" + toBeDeleted
+                + "\n" + taskList.getTaskCountString();
+    }
 }

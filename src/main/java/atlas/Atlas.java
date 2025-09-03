@@ -14,6 +14,15 @@ import java.util.Scanner;
  */
 public class Atlas {
 
+    private AtlasTaskList taskList;
+    private AtlasCli atlasCli;
+    private AtlasStorage atlasStorage;
+
+    public Atlas() {                    // <-- add this
+        this.atlasStorage = new AtlasStorage("atlas.txt");
+        this.taskList = new AtlasTaskList(atlasStorage.load());
+    }
+
     /**
      * Starts the Atlas application.
      * Initializes storage, CLI, and task list, then enters the command loop.
@@ -49,5 +58,14 @@ public class Atlas {
             }
         }
         atlasCli.showGoodbye();
+    }
+
+    public String getResponse(String input) {
+        try {
+            Command c = AtlasParser.parse(input);
+            return c.executeToString(taskList, atlasStorage);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 }

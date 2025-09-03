@@ -37,4 +37,15 @@ public class TodoCommand extends Command {
             atlasCLI.showError(e.getMessage());
         }
     }
+
+    @Override
+    public String executeToString(AtlasTaskList taskList, AtlasStorage atlasStorage) {
+        taskList.addTask(this.todo);
+        try {
+            atlasStorage.save(taskList);
+        } catch (IOException e) {
+            return e.getMessage();
+        }
+        return "Got it. I've added this task:\n" + this.todo.toString();
+    }
 }

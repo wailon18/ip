@@ -25,4 +25,14 @@ public class ListCommand extends Command {
         atlasCLI.listTasks(taskList.getTaskList());
         atlasCLI.showLine();
     }
+
+    @Override
+    public String executeToString(AtlasTaskList taskList, AtlasStorage atlasStorage) {
+        StringBuilder sb = new StringBuilder("Here are the tasks in your list:\n");
+        var tasks = taskList.getTaskList();
+        for (int i = 0; i < tasks.size(); i++) {
+            sb.append(i + 1).append(". ").append(tasks.get(i)).append('\n');
+        }
+        return sb.toString().trim();
+    }
 }
