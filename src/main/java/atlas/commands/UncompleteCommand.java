@@ -32,10 +32,9 @@ public class UncompleteCommand extends Command {
         Task task = taskList.getTaskByIndex(this.index);
         if (!task.isComplete()) {
             atlasCLI.printAlreadyIncomplete();
-        } else {
-            task.toggleComplete();
-            atlasCLI.printMarkAsIncomplete(task);
         }
+        task.toggleComplete();
+        atlasCLI.printMarkAsIncomplete(task);
         try {
             atlasStorage.save(taskList);
         } catch (IOException e) {
@@ -48,14 +47,13 @@ public class UncompleteCommand extends Command {
         Task task = taskList.getTaskByIndex(index);
         if (!task.isComplete()) {
             return "This task has not been marked as completed";
-        } else {
-            task.toggleComplete();
-            try {
-                atlasStorage.save(taskList);
-            } catch (IOException e) {
-                return e.getMessage();
-            }
-            return "OK, I've marked this task as not done yet:\n" + task;
         }
+        task.toggleComplete();
+        try {
+            atlasStorage.save(taskList);
+        } catch (IOException e) {
+            return e.getMessage();
+        }
+        return "OK, I've marked this task as not done yet:\n" + task;
     }
 }

@@ -67,9 +67,8 @@ public class AtlasTaskList {
     public String getTaskCountString() {
         if (this.taskList.size() == 1) {
             return "Now you have " + this.taskList.size() + " task in the list.";
-        } else {
-            return "Now you have " + this.taskList.size() + " tasks in the list.";
         }
+        return "Now you have " + this.taskList.size() + " tasks in the list.";
     }
 
 

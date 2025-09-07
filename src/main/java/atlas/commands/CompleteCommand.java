@@ -32,10 +32,9 @@ public class CompleteCommand extends Command {
         Task task = taskList.getTaskByIndex(index);
         if (task.isComplete()) {
             atlasCLI.printAlreadyComplete();
-        } else {
-            task.toggleComplete();
-            atlasCLI.printMarkAsComplete(task);
         }
+        task.toggleComplete();
+        atlasCLI.printMarkAsComplete(task);
         try {
             atlasStorage.save(taskList);
         } catch (IOException e) {
@@ -49,14 +48,13 @@ public class CompleteCommand extends Command {
         Task task = taskList.getTaskByIndex(index);
         if (task.isComplete()) {
             return "This task has already been marked as completed";
-        } else {
-            task.toggleComplete();
-            try {
-                atlasStorage.save(taskList);
-            } catch (IOException e) {
-                return e.getMessage();
-            }
-            return "Nice! I've marked this task as done:\n" + task;
         }
+        task.toggleComplete();
+        try {
+            atlasStorage.save(taskList);
+        } catch (IOException e) {
+            return e.getMessage();
+        }
+        return "Nice! I've marked this task as done:\n" + task;
     }
 }
