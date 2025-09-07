@@ -111,6 +111,7 @@ public class AtlasParser {
                     throw new IllegalArgumentException("Datetime must not be null.");
                 }
                 String deadlineTask = taskWithDeadline.substring(0, splitIndex - 1);
+                assert !deadlineTask.isEmpty() : "Deadline task description cannot be empty";
                 return new DeadlineCommand(deadlineTask, deadline);
             case EVENT:
                 String taskEvent = command.substring(6);

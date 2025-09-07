@@ -62,6 +62,7 @@ public class AtlasStorage {
                 String type = splitString[0];
                 Task newTask;
                 if (type.equals("T")) {
+                    assert splitString.length >= 3 : "Invalid Todo format in storage file";
                     newTask = new Todo(splitString[2]);
                 } else if (type.equals("D")) {
                     LocalDateTime deadline = AtlasParser.parseDateTime(splitString[3]);

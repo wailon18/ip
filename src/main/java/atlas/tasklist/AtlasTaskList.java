@@ -22,6 +22,7 @@ public class AtlasTaskList {
      * @param task the task to be added
      */
     public void addTask(Task task) {
+        assert task != null : "Cannot add a null task to the list";
         this.taskList.add(task);
     }
 
