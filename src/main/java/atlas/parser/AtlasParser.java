@@ -76,73 +76,70 @@ public class AtlasParser {
         String actionStr = command.split(" ")[0];
         Actions action = AtlasParser.toAction(actionStr);
         switch (action) {
-            case BYE:
-                return new ByeCommand();
-            case LIST:
-                return new ListCommand();
-            case UNMARK:
-                String[] splitStringUnmark = command.split(" ");
-                if (splitStringUnmark.length != 2) {
-                    throw new IllegalArgumentException("Index is required.");
-                } else {
-                    int index = Integer.parseInt(splitStringUnmark[1]) - 1;
-                    return new UncompleteCommand(index);
-                }
-            case MARK:
-                String[] splitStringMark = command.split(" ");
-                if (splitStringMark.length != 2) {
-                    throw new IllegalArgumentException("Index is required.");
-                } else {
-                    int index = Integer.parseInt(splitStringMark[1]) - 1;
-                    return new CompleteCommand(index);
-                }
-            case TODO:
-                String task = command.substring(5);
-                return new TodoCommand(task);
-            case DEADLINE:
-                String taskWithDeadline = command.substring(9);
-                int splitIndex = taskWithDeadline.lastIndexOf(DEADLINE_DELIMITER);
-                if (splitIndex < 0) {
-                    throw new IllegalArgumentException("Invalid Deadline task, must have '/by' flag");
-                }
-                String deadlineString = taskWithDeadline.substring(splitIndex + DEADLINE_DELIMITER.length() + 1);
-                LocalDateTime deadline = parseDateTime(deadlineString);
-                if (deadline == null) {
-                    throw new IllegalArgumentException("Datetime must not be null.");
-                }
-                String deadlineTask = taskWithDeadline.substring(0, splitIndex - 1);
-                assert !deadlineTask.isEmpty() : "Deadline task description cannot be empty";
-                return new DeadlineCommand(deadlineTask, deadline);
-            case EVENT:
-                String taskEvent = command.substring(6);
-                int fromIndex = taskEvent.lastIndexOf(FROM_DELIMITER);
-                int toIndex = taskEvent.lastIndexOf(TO_DELIMITER);
-                if (fromIndex < 0 || toIndex < 0) {
-                    throw new IllegalArgumentException("Invalid Event Task, must have '/from' and '/to' flags");
-                }
-                String eventTask = taskEvent.substring(0, fromIndex - 1);
-                String startDateString = taskEvent.substring(fromIndex + FROM_DELIMITER.length() + 1, toIndex - 1);
-                String endDateString = taskEvent.substring(toIndex + TO_DELIMITER.length() + 1);
-                LocalDateTime startDate = parseDateTime(startDateString);
-                LocalDateTime endDate = parseDateTime(endDateString);
-                if (startDate == null || endDate == null) {
-                    throw new IllegalArgumentException("Datetime must not be null.");
-                }
-                return new EventCommand(eventTask, startDate, endDate);
-            case DELETE:
-                String[] splitStringDelete = command.split(" ");
-                if (splitStringDelete.length != 2) {
-                    throw new IllegalArgumentException("Index is required.");
-                }
-                int index = Integer.parseInt(splitStringDelete[1]) - 1;
-                return new DeleteCommand(index);
-            case FIND:
-                String[] splitStringFind = command.split(" ");
-                String query = "";
-                if (splitStringFind.length == 2) {
-                    query =  splitStringFind[1];
-                }
-                return new FindCommand(query);
+        case BYE:
+            return new ByeCommand();
+        case LIST:
+            return new ListCommand();
+        case UNMARK:
+            String[] splitStringUnmark = command.split(" ");
+            if (splitStringUnmark.length != 2) {
+                throw new IllegalArgumentException("Index is required.");
+            }
+            int indexUnmark = Integer.parseInt(splitStringUnmark[1]) - 1;
+            return new UncompleteCommand(indexUnmark);
+        case MARK:
+            String[] splitStringMark = command.split(" ");
+            if (splitStringMark.length != 2) {
+                throw new IllegalArgumentException("Index is required.");
+            }
+            int indexMark = Integer.parseInt(splitStringMark[1]) - 1;
+            return new CompleteCommand(indexMark);
+        case TODO:
+            String task = command.substring(5);
+            return new TodoCommand(task);
+        case DEADLINE:
+            String taskWithDeadline = command.substring(9);
+            int splitIndex = taskWithDeadline.lastIndexOf(DEADLINE_DELIMITER);
+            if (splitIndex < 0) {
+                throw new IllegalArgumentException("Invalid Deadline task, must have '/by' flag");
+            }
+            String deadlineString = taskWithDeadline.substring(splitIndex + DEADLINE_DELIMITER.length() + 1);
+            LocalDateTime deadline = parseDateTime(deadlineString);
+            if (deadline == null) {
+                throw new IllegalArgumentException("Datetime must not be null.");
+            }
+            String deadlineTask = taskWithDeadline.substring(0, splitIndex - 1);
+            return new DeadlineCommand(deadlineTask, deadline);
+        case EVENT:
+            String taskEvent = command.substring(6);
+            int fromIndex = taskEvent.lastIndexOf(FROM_DELIMITER);
+            int toIndex = taskEvent.lastIndexOf(TO_DELIMITER);
+            if (fromIndex < 0 || toIndex < 0) {
+                throw new IllegalArgumentException("Invalid Event Task, must have '/from' and '/to' flags");
+            }
+            String eventTask = taskEvent.substring(0, fromIndex - 1);
+            String startDateString = taskEvent.substring(fromIndex + FROM_DELIMITER.length() + 1, toIndex - 1);
+            String endDateString = taskEvent.substring(toIndex + TO_DELIMITER.length() + 1);
+            LocalDateTime startDate = parseDateTime(startDateString);
+            LocalDateTime endDate = parseDateTime(endDateString);
+            if (startDate == null || endDate == null) {
+                throw new IllegalArgumentException("Datetime must not be null.");
+            }
+            return new EventCommand(eventTask, startDate, endDate);
+        case DELETE:
+            String[] splitStringDelete = command.split(" ");
+            if (splitStringDelete.length != 2) {
+                throw new IllegalArgumentException("Index is required.");
+            }
+            int index = Integer.parseInt(splitStringDelete[1]) - 1;
+            return new DeleteCommand(index);
+        case FIND:
+            String[] splitStringFind = command.split(" ");
+            String query = "";
+            if (splitStringFind.length == 2) {
+                query =  splitStringFind[1];
+            }
+            return new FindCommand(query);
         }
         throw new IllegalArgumentException("Unknown action: " + command);
     }

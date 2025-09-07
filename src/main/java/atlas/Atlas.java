@@ -18,7 +18,7 @@ public class Atlas {
     private AtlasCli atlasCli;
     private AtlasStorage atlasStorage;
 
-    public Atlas() {                    // <-- add this
+    public Atlas() {
         this.atlasStorage = new AtlasStorage("atlas.txt");
         this.taskList = new AtlasTaskList(atlasStorage.load());
     }
@@ -42,7 +42,20 @@ public class Atlas {
         AtlasStorage atlasStorage = new AtlasStorage("atlas.txt");
         AtlasCli atlasCli = new AtlasCli(new Scanner(System.in));
         AtlasTaskList atlasTaskList = new AtlasTaskList(atlasStorage.load());
+        Atlas.runAtlasCli(atlasTaskList, atlasStorage, atlasCli);
 
+    }
+
+    public String getResponse(String input) {
+        try {
+            Command c = AtlasParser.parse(input);
+            return c.executeToString(taskList, atlasStorage);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    private static void runAtlasCli(AtlasTaskList atlasTaskList, AtlasStorage atlasStorage, AtlasCli atlasCli) {
         atlasCli.showWelcome();
         boolean isExit = false;
         while (!isExit) {
@@ -58,14 +71,5 @@ public class Atlas {
             }
         }
         atlasCli.showGoodbye();
-    }
-
-    public String getResponse(String input) {
-        try {
-            Command c = AtlasParser.parse(input);
-            return c.executeToString(taskList, atlasStorage);
-        } catch (Exception e) {
-            return e.getMessage();
-        }
     }
 }
