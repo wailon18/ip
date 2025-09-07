@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -35,11 +36,32 @@ public class AtlasStorage {
      * @throws IOException if an error occurs while writing to the file
      */
     public void save(AtlasTaskList atlasTaskList) throws IOException {
+        ensureNoEventClashes(atlasTaskList);
         try (PrintWriter out = new PrintWriter(new FileWriter(this.filePath, false))) {
             for (Task task : atlasTaskList.getTaskList()) {
                 out.println(task.saveTask());
             }
         }
+    }
+
+    private static void ensureNoEventClashes(AtlasTaskList tasks) throws IOException {
+        List<Event> events = tasks.getTaskList().stream()
+                .filter(t -> t instanceof Event)
+                .map(t -> (Event) t)
+                .sorted(Comparator
+                        .comparing(Event::getStart)
+                        .thenComparing(Event::getEnd))
+                .toList();
+        for (int i = 1; i < events.size(); i++) {
+            Event prev = events.get(i - 1);
+            Event cur  = events.get(i);
+            if (overlaps(prev, cur)) {
+                throw new IOException("Cannot save: events overlap: " + prev + " and " + cur);
+            }
+        }
+    }
+    private static boolean overlaps(Event a, Event b) {
+        return a.getStart().isBefore(b.getEnd()) && b.getStart().isBefore(a.getEnd());
     }
 
     /**

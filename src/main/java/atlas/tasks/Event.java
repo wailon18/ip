@@ -26,5 +26,12 @@ public class Event extends Task {
         return "[E]" + super.toString() + " (from: " + startDate.format(dtf) + " to: " + endDate.format(dtf) + ")";
     }
 
+    public LocalDateTime getStart() {
+        return startDate;
+    }
+
+    public LocalDateTime getEnd() {
+        return endDate;
+    }
 
 }
