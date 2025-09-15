@@ -32,14 +32,12 @@ public class AtlasParser {
      * @param date the date-time string to parse
      * @return the parsed {@link LocalDateTime}, or {@code null} if parsing fails
      */
-    public static LocalDateTime parseDateTime(String date) {
+    public static LocalDateTime parseDateTime(String date) throws IllegalArgumentException {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
         try {
             return LocalDateTime.parse(date, dtf);
         } catch (DateTimeParseException ex) {
-            System.out.println("Invalid datetime format: " + ex.getMessage());
-            System.out.println("Please try again.");
-            return null;
+            throw new IllegalArgumentException("Invalid datetime format: " + ex.getMessage());
         }
     }
 
@@ -85,16 +83,19 @@ public class AtlasParser {
             if (splitStringUnmark.length != 2) {
                 throw new IllegalArgumentException("Index is required.");
             }
-            int indexUnmark = Integer.parseInt(splitStringUnmark[1]) - 1;
+            int indexUnmark = parseIndex(splitStringUnmark[1]) - 1;
             return new UncompleteCommand(indexUnmark);
         case MARK:
             String[] splitStringMark = command.split(" ");
             if (splitStringMark.length != 2) {
                 throw new IllegalArgumentException("Index is required.");
             }
-            int indexMark = Integer.parseInt(splitStringMark[1]) - 1;
+            int indexMark = parseIndex(splitStringMark[1]) - 1;
             return new CompleteCommand(indexMark);
         case TODO:
+            if (command.length() <= 5) {
+                throw new IllegalArgumentException("Task description must not be empty.");
+            }
             String task = command.substring(5);
             return new TodoCommand(task);
         case DEADLINE:
@@ -105,9 +106,6 @@ public class AtlasParser {
             }
             String deadlineString = taskWithDeadline.substring(splitIndex + DEADLINE_DELIMITER.length() + 1);
             LocalDateTime deadline = parseDateTime(deadlineString);
-            if (deadline == null) {
-                throw new IllegalArgumentException("Datetime must not be null.");
-            }
             String deadlineTask = taskWithDeadline.substring(0, splitIndex - 1);
             return new DeadlineCommand(deadlineTask, deadline);
         case EVENT:
@@ -122,16 +120,13 @@ public class AtlasParser {
             String endDateString = taskEvent.substring(toIndex + TO_DELIMITER.length() + 1);
             LocalDateTime startDate = parseDateTime(startDateString);
             LocalDateTime endDate = parseDateTime(endDateString);
-            if (startDate == null || endDate == null) {
-                throw new IllegalArgumentException("Datetime must not be null.");
-            }
             return new EventCommand(eventTask, startDate, endDate);
         case DELETE:
             String[] splitStringDelete = command.split(" ");
             if (splitStringDelete.length != 2) {
                 throw new IllegalArgumentException("Index is required.");
             }
-            int index = Integer.parseInt(splitStringDelete[1]) - 1;
+            int index = parseIndex(splitStringDelete[1]) - 1;
             return new DeleteCommand(index);
         case FIND:
             String[] splitStringFind = command.split(" ");
@@ -142,5 +137,13 @@ public class AtlasParser {
             return new FindCommand(query);
         }
         throw new IllegalArgumentException("Unknown action: " + command);
+    }
+
+    public static int parseIndex(String indexStr) {
+        try {
+            return Integer.parseInt(indexStr);
+        } catch (NumberFormatException ex) {
+            throw new IllegalArgumentException("Invalid index: " + indexStr);
+        }
     }
 }
