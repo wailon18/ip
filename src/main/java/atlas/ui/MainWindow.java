@@ -53,10 +53,11 @@ public class MainWindow extends AnchorPane {
     }
 
     private void showWelcome() {
-        String welcomeMessage = "Hello! I'm Atlas.Atlas\nWhat can I do for you?";
+        String welcomeMessage = "Hello! I'm Atlas\nWhat can I do for you?";
         String informationMessage = "Type commands in the following format:\n"
                 + "- todo <task>\n- deadline <task> /by <datetime>\n- event <task> /from <datetime> /to <datetime>\n"
-                + "Note that <datetime> must be in the form of <dd/MM/yyyy HHmm> where HHmm is time in 24-hour format\n";
+                + "Note that <datetime> must be in the form of <dd/MM/yyyy HHmm> where HHmm is time in 24-hour format\n"
+                + "Enter \"help\" to see the full list of commands";
         dialogContainer.getChildren().addAll(
                 DialogBox.getAtlasDialog(welcomeMessage, atlasImage),
                 DialogBox.getAtlasDialog(informationMessage, atlasImage)

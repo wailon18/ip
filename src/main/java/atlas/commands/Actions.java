@@ -9,5 +9,6 @@ public enum Actions {
     DEADLINE,
     EVENT,
     DELETE,
-    FIND
+    FIND,
+    HELP
 }

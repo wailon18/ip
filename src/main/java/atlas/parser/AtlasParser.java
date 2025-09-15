@@ -135,6 +135,8 @@ public class AtlasParser {
                 query =  splitStringFind[1];
             }
             return new FindCommand(query);
+        case HELP:
+            return new HelpCommand();
         }
         throw new IllegalArgumentException("Unknown action: " + command);
     }

@@ -24,7 +24,7 @@ public final class AtlasCli {
      * Displays the welcome message and usage instructions to the user.
      */
     public void showWelcome() {
-        String welcomeMessage = "Hello! I'm Atlas.Atlas\nWhat can I do for you?";
+        String welcomeMessage = "Hello! I'm Atlas\nWhat can I do for you?";
         String informationMessage = "Type commands in the following format:\n"
                 + "- todo <task>\n- deadline <task> /by <datetime>\n- event <task> /from <datetime> /to <datetime>\n"
                 + "Note that <datetime> must be in the form of <dd/MM/yyyy HHmm> where HHmm is time in 24-hour format\n";
@@ -157,6 +157,14 @@ public final class AtlasCli {
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i+1) + "." + tasks.get(i));
         }
+    }
+
+    public void printHelp() {
+        System.out.println("todo, deadline, event" +
+                "list (or ls), delete (or del)" +
+                "mark <index>, unmark <index>" +
+                "find <keyword>" +
+                "bye");
     }
 
 }
